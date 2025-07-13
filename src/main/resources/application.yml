@@ -13,3 +13,6 @@ spring:
     compose:
       enabled: false
 
+  jwt:
+    secret: NagisaOrewakokoniruzo
+

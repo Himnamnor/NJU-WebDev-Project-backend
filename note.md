@@ -13,3 +13,16 @@
 - `@Enumerated`：枚举类型注解，指定枚举属性的存储方式。
   - `EnumType.ORDINAL`：按枚举的顺序存储。
   - `EnumType.STRING`：按枚举的名称存储。
+
+## Jakarta Filter实现
+Jakarta Filter接口声明如下
+```java
+package jakarta.servlet;
+import java.io.IOException;
+public interface Filter {
+    void init(FilterConfig filterConfig) throws ServletException;
+    void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException;
+    void destroy();
+}
+```
