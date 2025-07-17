@@ -46,5 +46,17 @@ public class Activity {
 
     //todo: 评论
 
-    public ActivityVO toVO(){}
+    public ActivityVO toVO(){
+        ActivityVO vo=new ActivityVO();
+        vo.setActId(this.actId);
+        vo.setActName(this.getActName());
+        vo.setVolume(this.volume);
+        vo.setCurNum(this.curNum);
+        vo.setLocation(this.location);
+        vo.setPrice(this.price);
+        vo.setType(this.type);
+        vo.setTime(this.time);
+        vo.setDueTime(this.dueTime);
+        return vo;
+    }
 }
