@@ -13,8 +13,8 @@ public class Response<T> {
         return new Response<>(input, "success!", 200);
     }
 
-    public static Response<Boolean> buildFailure(String message,Integer errorCode){
-        return new Response<>(false,message,errorCode);
+    public static <T> Response<T> buildFailure(T input,String message,Integer errorCode){
+        return new Response<>(input,message,errorCode);
     }
 
 }

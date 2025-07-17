@@ -6,11 +6,12 @@ import com.nagisa.furukawa.Service.UserService;
 import com.nagisa.furukawa.Util.SecurityUtil;
 import com.nagisa.furukawa.VO.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Component;
 import com.nagisa.furukawa.Util.SecurityUtil;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
     public Boolean register(UserVO newUser){
         User userPO=newUser.toPO();
         String nonEncryptedPassword = userPO.getPassword();
-        userPO.setPassword(securityUtil.passwordEncoder.encode(nonEncryptedPassword));
+        userPO.setPassword(securityUtil.passwordEncoder().encode(nonEncryptedPassword));
         try {
             userRepository.save(userPO);
             return true;
@@ -47,12 +48,35 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         String encryptedPassword=stored.getPassword();
-        if(passwordEncoder.matches(password,encryptedPassword)){
+        if(securityUtil.passwordEncoder().matches(password,encryptedPassword)){
             return stored.toVO();
         }
         else{
             return null;
         }
+    }
+
+    @Override
+    public UserVO getPersonalInfo(Integer userId){
+        User user=userRepository.findByUserId(userId);
+        if(user==null) return null;
+        return user.toVO();
+    }
+
+    @Override
+    public UserVO setPersonalInfo(Integer userId,UserVO newUserInfo){
+        User oldUserInfo=userRepository.findByUserId(userId);
+        if(oldUserInfo==null) return null;
+
+        String newRawPassword=newUserInfo.getPassword();
+        boolean passwordChanged=!securityUtil.passwordEncoder().matches(newRawPassword,oldUserInfo.getPassword());
+        oldUserInfo=newUserInfo.toPO();
+        if(passwordChanged)
+        {
+            String encryptedNewPassword=securityUtil.passwordEncoder().encode(newRawPassword);
+            oldUserInfo.setPassword(encryptedNewPassword);
+        }
+        return userRepository.save(oldUserInfo).toVO();
     }
 
 }
