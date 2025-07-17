@@ -13,6 +13,15 @@
 - `@Enumerated`：枚举类型注解，指定枚举属性的存储方式。
   - `EnumType.ORDINAL`：按枚举的顺序存储。
   - `EnumType.STRING`：按枚举的名称存储。
+### Jpa接口
+| 前缀                            | 作用                 | 示例                             |
+| ----------------------------- | ------------------ | ------------------------------ |
+| `findBy` / `readBy` / `getBy` | 查询数据               | `findByUserName(String name)`  |
+| `countBy`                     | 统计数量               | `countByStatus(String status)` |
+| `existsBy`                    | 是否存在（返回 boolean）   | `existsByEmail(String email)`  |
+| `deleteBy` / `removeBy`       | 删除数据               | `deleteByUserId(Long id)`      |
+| `queryBy`（较少用）                | 查询数据（等价于 `findBy`） | `queryByRole(String role)`     |
+
 
 ## Jakarta Filter实现
 Jakarta Filter接口声明如下
