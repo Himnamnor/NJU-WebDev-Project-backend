@@ -6,8 +6,6 @@ import com.nagisa.furukawa.Service.UserService;
 import com.nagisa.furukawa.Util.SecurityUtil;
 import com.nagisa.furukawa.VO.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
-import org.springframework.stereotype.Component;
 import com.nagisa.furukawa.Util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
