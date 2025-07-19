@@ -1,11 +1,3 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Java CI with Maven
 
 on:
@@ -20,46 +12,57 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Dependies Cache
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
-    - name: Build with Maven
-      run: mvn clean package -Dspring.profiles.active=ci -Dmaven.test.skip=true
-      
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Dependencies Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-    - name: Log in to ACR
-      run: echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ vars.ACR_REGISTRY }} -u ${{ vars.USER_NAME }} --password-stdin
+      - name: Build with Maven
+        run: mvn clean package -Dspring.profiles.active=ci -Dmaven.test.skip=true
 
-    - name: Build and Push Docker Image
-      run: |
-        IMAGE=${{ vars.ACR_REGISTRY }}/${{vars.ACR_REPO}}:${{ vars.TAG_NUM }}
-        docker build -t $IMAGE .
-        docker push $IMAGE
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Deploy to ECS via SSH
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.ECS_HOST }}
-        username: ${{ secrets.ECS_USER }}
-        key: ${{secrets.ECT_SSH_KEY}}
-        script: |
-          echo "Deployed successfully"
-          docker login -u ${{ vars.USER_NAME }} -p ${{ secrets.ACR_PASSWORD }} ${{ vars.ACR_REGISTRY }}
-          docker pull ${{ vars.ACR_REGISTRY }}/${{ vars.ACR_REPO }}:${{ vars.TAG_NUM }}
-          docker stop backend || true && docker rm backend || true
-          docker run -d --name backend -p 8080:8080 ${{ vars.ACR_REGISTRY }}/${{ vars.ACR_REPO }}:${{ vars.TAG_NUM }}
+      - name: Log in to ACR
+        run: echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ vars.ACR_REGISTRY }} -u ${{ vars.USER_NAME }} --password-stdin
+
+      - name: Build and Push Docker Image
+        run: |
+          IMAGE=${{ vars.ACR_REGISTRY }}/${{ vars.ACR_REPO }}:${{ vars.TAG_NUM }}
+          docker build -t $IMAGE .
+          docker push $IMAGE
+
+      - name: Copy docker-compose.yml to ECS
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.ECS_HOST }}
+          username: ${{ secrets.ECS_USER }}
+          key: ${{ secrets.ECT_SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "~/app"  # 目标路径，按你ECS上目录结构调整
+
+      - name: Deploy to ECS via SSH (docker-compose)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.ECS_HOST }}
+          username: ${{ secrets.ECS_USER }}
+          key: ${{ secrets.ECT_SSH_KEY }}
+          script: |
+            cd ~/app
+            docker login -u ${{ vars.USER_NAME }} -p ${{ secrets.ACR_PASSWORD }} ${{ vars.ACR_REGISTRY }}
+            docker compose pull        # 拉取镜像（后端服务）
+            docker compose down        # 停止并移除已有容器（可选）
+            docker compose up -d       # 启动所有服务容器（MySQL+Backend）
