@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: mysql:8.0
+    image: crpi-kj0h1ihlbijkcjuf.cn-shanghai.personal.cr.aliyuncs.com/dev-practice/my-mysql:8
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: 123456
