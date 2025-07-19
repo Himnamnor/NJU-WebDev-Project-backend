@@ -13,10 +13,12 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}" ]
+      test: [ "CMD", "mysql", "-u", "root", "-p123456", "-e", "USE furukawa;" ]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 30s
+
 
   backend:
     depends_on:
