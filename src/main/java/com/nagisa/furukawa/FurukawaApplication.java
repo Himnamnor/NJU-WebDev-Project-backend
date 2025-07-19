@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.nagisa.furukawa.Repository")
-@EntityScan(basePackages = "com.nagisa.furukawa.Entity")
+@EntityScan(basePackages = "com.nagisa.furukawa.PO")
 public class FurukawaApplication {
 
 	public static void main(String[] args) {
