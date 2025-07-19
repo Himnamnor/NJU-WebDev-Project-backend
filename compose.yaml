@@ -12,14 +12,20 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
+    depends_on:
+      mysql:
+        condition: service_healthy
     image: crpi-kj0h1ihlbijkcjuf.cn-shanghai.personal.cr.aliyuncs.com/dev-practice/furukawa-backend:v1.0.0
     container_name: springboot-app
     ports:
       - "8080:8080"
-    depends_on:
-      - mysql
     environment:
       SPRING_PROFILES_ACTIVE: ci
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/furukawa?useSSL=false&serverTimezone=Asia/Shanghai
