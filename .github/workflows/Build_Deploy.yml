@@ -51,10 +51,12 @@ jobs:
         docker build -t $IMAGE .
         docker push $IMAGE
 
-    - name: Decode SSH private key
+    - name: Set up SSH key
       run: |
-        echo "${{ secrets.ECS_SSH_KEY_BASE64 }}" | base64 -d > ~/.ssh/id_rsa
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
+
 
     - name: Deploy to ECS via SSH
       uses: appleboy/ssh-action@v1.0.3
