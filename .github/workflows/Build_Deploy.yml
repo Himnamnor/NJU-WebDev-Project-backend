@@ -38,4 +38,27 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean package -Dspring.profiles.active=ci -Dmaven.test.skip=true
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
+    - name: Log in to ACR
+      run: echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ vars.ACR_REGISTRY }} -u ${{ vars.USER_NAME }} --password-stdin
+
+    - name: Build and Push Docker Image
+      run: |
+        IMAGE=${{ vars.ACR_REGISTRY }}/${{vars.ACR_REPO}}:${{ vars.TAG_NUM }}
+        docker build -t $IMAGE .
+        docker push $IMAGE
+
+    - name: Deploy to ECS via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.ECS_HOST }}
+        username: ${{ secrets.ECS_USER }}
+        key: ${{ secrets.ECS_SSH_KEY }}
+        script: |
+          docker login -u ${{ vars.USER_NAME }} -p ${{ secrets.ACR_PASSWORD }} ${{ vars.ACR_REGISTRY }}
+          docker pull ${{ vars.ACR_REGISTRY }}/${{ vars.ACR_REPO }}:${{ vars.IMAGE_TAG }}
+          docker stop backend || true && docker rm backend || true
+          docker run -d --name backend -p 8080:8080 ${{ vars.ACR_REGISTRY }}/${{ vars.ACR_REPO }}:${{ vars.IMAGE_TAG }}
