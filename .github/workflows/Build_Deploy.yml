@@ -58,6 +58,7 @@ jobs:
         username: ${{ secrets.ECS_USER }}
         key: ${{ secrets.ECS_SSH_KEY }}
         script: |
+          echo "Deploying to ${{ secrets.ECS_HOST }}"
           docker login -u ${{ vars.USER_NAME }} -p ${{ secrets.ACR_PASSWORD }} ${{ vars.ACR_REGISTRY }}
           docker pull ${{ vars.ACR_REGISTRY }}/${{ vars.ACR_REPO }}:${{ vars.IMAGE_TAG }}
           docker stop backend || true && docker rm backend || true
