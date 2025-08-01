@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  session:
+    store-type: none
+  docker:
+    compose:
+      enabled: false
+
+jwt:
+  secret: Na_gi_sa_O_re_wa_ko_ko_ni_ru_zo_123456789
+
