@@ -36,4 +36,17 @@ public class ActivityServiceImpl implements ActivityService {
         return true;
     }
 
+    @Override
+    public Boolean updateAct(ActivityVO activityVO){
+        Activity activity=activityVO.toPO();
+        Activity toBeUpdated=activityRepository.findByActId(activity.getActId());
+        if(toBeUpdated==null) return false;
+        try{
+            activityRepository.save(activity);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }

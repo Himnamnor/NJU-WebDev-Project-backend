@@ -9,4 +9,5 @@ public interface UserService {
     UserVO login(UserVO userVO);
     UserVO getPersonalInfo(Integer userId);
     UserVO setPersonalInfo(Integer userId,UserVO newUserInfo);
+
 }
