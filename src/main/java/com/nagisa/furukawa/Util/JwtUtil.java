@@ -1,6 +1,7 @@
 package com.nagisa.furukawa.Util;
 
-import com.nagisa.furukawa.Service.UserService;
+import com.nagisa.furukawa.PO.User;
+import com.nagisa.furukawa.Repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class JwtUtil {
 
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
 
     @Setter
     private String secret;
@@ -39,9 +40,10 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateToken(String username){
+    public String generateToken(Integer userId){
+        String userIdString=userId.toString();
         Map<String,Object> claims=new HashMap<>();
-        return createToken(claims, username);
+        return createToken(claims, userIdString);
     }
 
     private Claims extractAllClaims(String token){
@@ -52,8 +54,14 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String extractUsername(String token){
-        return extractAllClaims(token).getSubject();
+    public Integer extractUserId(String token){
+        String userIdString= extractAllClaims(token).getSubject();
+        try{
+            Integer userId=Integer.parseInt(userIdString);
+            return userId;
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Date extractExpiration(String token){
@@ -65,9 +73,11 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token){
-        String extractedUsername = extractUsername(token);
-        boolean usernameExist=userService.containUsername(extractedUsername);
-        return usernameExist&&!isTokenExpired(token);
+        Integer userId = extractUserId(token);
+        User user=userRepository.findByUserId(userId);
+        return user!=null&&!isTokenExpired(token);
     }
+
+
 
 }

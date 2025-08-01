@@ -7,9 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
+@Table(name = "activity")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -36,15 +38,14 @@ public class Activity {
     ActType type;
 
     @Column(nullable = false)
-    Date time;
+    LocalDateTime time;
 
     @Column(nullable = false)
-    Date dueTime;
+    LocalDateTime dueTime;
 
     @Column(nullable = false)
     Double price;
 
-    //todo: 评论
 
     public ActivityVO toVO(){
         ActivityVO vo=new ActivityVO();

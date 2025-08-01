@@ -27,7 +27,7 @@ public class UserVO {
      */
     public User toPO(){
         User user=new User();
-        user.setUserId(this.userId);
+        //user.setUserId(this.userId);
         user.setUserName(this.userName);
         user.setPassword(this.password);
         user.setPhone(this.phone);
