@@ -36,4 +36,9 @@ public class ActivityController {
         return Response.buildFailure(false,"Invalid entries exists or missing entries!",400);
     }
 
+    @GetMapping("/activity/{actId}")
+    public Response<ActivityVO> getSpecActivity(@PathVariable Integer actId){
+
+    }
+
 }

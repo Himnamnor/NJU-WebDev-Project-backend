@@ -34,7 +34,7 @@ public class UserController {
 
     /**用户登录方法
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public Response<UserVO> login(@RequestBody UserVO toLoginUser, HttpServletResponse response){
         if(toLoginUser.getUserName() == null || toLoginUser.getPassword() == null){
             return Response.buildFailure(null,"Username or password cannot be null", 400);
@@ -43,7 +43,7 @@ public class UserController {
         if(retUser==null){
             return Response.buildFailure(null,"Login failed, username does not exist or password is incorrect",400);
         }
-        String token=jwtUtil.generateToken(retUser.getUserName());
+        String token=jwtUtil.generateToken(retUser.getUserId());
         response.setHeader("Authorization", token);
         return Response.buildSuccess(retUser);
     }
