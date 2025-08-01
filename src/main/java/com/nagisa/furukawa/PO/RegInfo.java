@@ -17,7 +17,6 @@ public class RegInfo {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     Integer regId;
 
-    @Column(nullable = false)
     @OneToOne
     @JoinColumn(
             name="user_id",
@@ -25,7 +24,6 @@ public class RegInfo {
     )
     User user;
 
-    @Column(nullable = false)
     @OneToOne
     @JoinColumn(
             name="act_id",
