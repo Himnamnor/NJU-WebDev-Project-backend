@@ -14,9 +14,9 @@ public class TokenUtilTests {
 
     @Test
     public void testParseToken(){
-        String userName="ChenZuxi";
-        String token=jwtUtil.generateToken(userName);
-        String parsedUserName=jwtUtil.extractUserId(token);
-        assertEquals(userName, parsedUserName);
+        Integer userId=114514;
+        String token=jwtUtil.generateToken(userId);
+        Integer parsedUserId=jwtUtil.extractUserId(token);
+        assertEquals(userId, parsedUserId);
     }
 }
