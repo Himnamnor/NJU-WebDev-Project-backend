@@ -46,6 +46,7 @@ public class UserController {
         }
         String token=jwtUtil.generateToken(retUser.getUserId());
         response.setHeader("Authorization", token);
+        retUser.setPassword("********");
         return Response.buildSuccess(retUser);
     }
 
