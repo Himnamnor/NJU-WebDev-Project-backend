@@ -19,8 +19,7 @@ public class UserVO {
     private Integer height;
     private Integer weight;
     private String role;
-    //todo: private List<Integer> participations;
-
+    private String avatar;
 
     /**将VO转换为PO
      * 注意：此处的Role转换需要处理异常
@@ -41,6 +40,7 @@ public class UserVO {
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
+        user.setAvatar(this.avatar);
         return user;
     }
 }

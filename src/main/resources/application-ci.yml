@@ -20,3 +20,10 @@ spring:
 jwt:
   secret: Na_gi_sa_O_re_wa_ko_ko_ni_ru_zo_123456789
 
+aliyun:
+  oss:
+    endpoint: oss-cn-shanghai.aliyuncs.com
+    accessKeyId: LTAI5t8xrpCkS7fhVUmb7JRV
+    accessKeySecret: BpihAZNaiecy40ex7WVYCxcdnvm3BR
+    bucketName: okazaki-bluewhale
+

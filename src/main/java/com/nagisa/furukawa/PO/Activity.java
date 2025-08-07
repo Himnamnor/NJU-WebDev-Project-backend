@@ -46,6 +46,9 @@ public class Activity {
     @Column(nullable = false)
     Double price;
 
+    @Column
+    String image;
+
 
     public ActivityVO toVO(){
         ActivityVO vo=new ActivityVO();
@@ -58,6 +61,7 @@ public class Activity {
         vo.setType(this.type);
         vo.setTime(this.time);
         vo.setDueTime(this.dueTime);
+        vo.setImage(this.image);
         return vo;
     }
 }

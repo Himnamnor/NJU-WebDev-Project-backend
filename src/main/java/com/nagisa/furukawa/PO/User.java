@@ -45,6 +45,9 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    @Column
+    private String avatar;
+
     //todo: 报名活动
 
     public UserVO toVO(){
@@ -58,6 +61,7 @@ public class User {
         userVO.setHeight(this.height);
         userVO.setWeight(this.weight);
         userVO.setRole(this.role.getLabel());
+        userVO.setAvatar(this.avatar);
         return userVO;
     }
 

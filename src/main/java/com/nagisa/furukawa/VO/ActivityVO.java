@@ -22,7 +22,8 @@ public class ActivityVO {
     private ActType type;
     private LocalDateTime time; //todo: 前端需要看一看时间怎么传
     private LocalDateTime dueTime;
-    Double price;
+    private Double price;
+    private String image;
 
     public Activity toPO(){
         Activity po=new Activity();
@@ -34,6 +35,7 @@ public class ActivityVO {
         po.setType(this.type);
         po.setTime(this.time);
         po.setDueTime(this.dueTime);
+        po.setImage(this.image);
         return po;
     }
 
