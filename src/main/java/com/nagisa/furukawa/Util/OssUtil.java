@@ -18,7 +18,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@ConfigurationProperties("aliyun-oss")
+@ConfigurationProperties("aliyun.oss")
 public class OssUtil {
 
     private String endpoint;

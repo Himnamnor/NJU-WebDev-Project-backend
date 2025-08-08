@@ -26,6 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000") // 允许的前端地址
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 允许的HTTP方法
                 .allowedHeaders("*") // 允许的请求头
+                .exposedHeaders("Authorization")
                 .allowCredentials(true); // 是否允许携带凭证
     }
 

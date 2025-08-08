@@ -19,8 +19,8 @@ jwt:
 aliyun:
   oss:
     endpoint: oss-cn-shanghai.aliyuncs.com
-    accessKeyId: LTAI5t8xrpCkS7fhVUmb7JRV
-    accessKeySecret: BpihAZNaiecy40ex7WVYCxcdnvm3BR
+    accessKeyId:
+    accessKeySecret:
     bucketName: okazaki-bluewhale
 
 

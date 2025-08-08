@@ -45,7 +45,7 @@ public class UserController {
             return Response.buildFailure(null,"Login failed, username does not exist or password is incorrect",400);
         }
         String token=jwtUtil.generateToken(retUser.getUserId());
-        response.setHeader("Authorization", token);
+        response.setHeader("authorization", token);
         retUser.setPassword("********");
         return Response.buildSuccess(retUser);
     }

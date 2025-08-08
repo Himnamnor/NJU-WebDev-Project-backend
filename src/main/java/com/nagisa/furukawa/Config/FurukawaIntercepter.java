@@ -38,7 +38,7 @@ public class FurukawaIntercepter implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_OK);
             return false; // 或 true 都行，视需求决定
         }
-        String token=request.getHeader("Authorization");
+        String token=request.getHeader("authorization");
         if(token==null||!jwtUtil.validateToken(token)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json;charset=UTF-8");
