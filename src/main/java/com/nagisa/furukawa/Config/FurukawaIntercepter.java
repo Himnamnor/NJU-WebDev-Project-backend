@@ -30,6 +30,9 @@ public class FurukawaIntercepter implements HandlerInterceptor {
         if(uri.equals("/api/user/register")&&method.equals("POST")){
             return true;
         }
+        if(uri.equals("/api/object")&&(method.equals("POST")||method.equals("DELETE"))){
+            return true;
+        }
         // 放行 OPTIONS 预检请求
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);

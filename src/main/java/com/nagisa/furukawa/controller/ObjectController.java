@@ -17,7 +17,7 @@ public class ObjectController {
     OssUtil ossUtil;
 
     @PostMapping
-    public Response<String> upload(@RequestBody MultipartFile file){
+    public Response<String> upload(@RequestParam("file") MultipartFile file){
         InputStream inputStream;
         String url;
         try{
