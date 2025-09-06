@@ -15,6 +15,7 @@ public class RegInfo {
 
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @Column
     Integer regId;
 
     @OneToOne

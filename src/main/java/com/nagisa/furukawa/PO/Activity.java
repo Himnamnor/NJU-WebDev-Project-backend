@@ -19,6 +19,7 @@ public class Activity {
 
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @Column
     Integer actId;
 
     @Column(nullable = false)
@@ -58,7 +59,7 @@ public class Activity {
         vo.setCurNum(this.curNum);
         vo.setLocation(this.location);
         vo.setPrice(this.price);
-        vo.setType(this.type);
+        vo.setType(this.type.getLabel());
         vo.setTime(this.time);
         vo.setDueTime(this.dueTime);
         vo.setImage(this.image);

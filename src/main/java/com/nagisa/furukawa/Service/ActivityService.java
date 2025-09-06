@@ -10,5 +10,5 @@ public interface ActivityService {
     Boolean updateAct(ActivityVO activityVO);
     ActivityVO getSpecActivity(Integer actId);
     List<ActivityVO> getAllActivities();
-
+    List<ActivityVO> getSearchedActivities(String searchedActName);
 }

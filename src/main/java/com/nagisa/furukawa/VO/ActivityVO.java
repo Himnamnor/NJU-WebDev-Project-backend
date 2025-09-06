@@ -19,8 +19,8 @@ public class ActivityVO {
     private Integer volume;
     private Integer curNum;
     private String location;
-    private ActType type;
-    private LocalDateTime time; //todo: 前端需要看一看时间怎么传
+    private String type;
+    private LocalDateTime time;
     private LocalDateTime dueTime;
     private Double price;
     private String image;
@@ -32,10 +32,16 @@ public class ActivityVO {
         po.setVolume(this.volume);
         po.setCurNum(this.curNum);
         po.setLocation(this.location);
-        po.setType(this.type);
+        try{
+            po.setType(ActType.getActTypeFromLabel(this.type));
+            System.out.println(po.getType().getLabel());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         po.setTime(this.time);
         po.setDueTime(this.dueTime);
         po.setImage(this.image);
+        po.setPrice(this.price);
         return po;
     }
 

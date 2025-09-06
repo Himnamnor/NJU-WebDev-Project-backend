@@ -62,20 +62,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO setPersonalInfo(Integer userId,UserVO newUserInfo){
-        User oldUserInfo=userRepository.findByUserId(userId);
-        if(oldUserInfo==null) return null;
+    public UserVO setPersonalInfo(Integer userId, UserVO newUserInfo) {
+        User oldUserInfo = userRepository.findByUserId(userId);
+        if (oldUserInfo == null) return null;
 
-        String newRawPassword=newUserInfo.getPassword();
-        boolean passwordChanged=!securityUtil.passwordEncoder().matches(newRawPassword,oldUserInfo.getPassword());
-        oldUserInfo=newUserInfo.toPO();
-        if(passwordChanged)
-        {
-            String encryptedNewPassword=securityUtil.passwordEncoder().encode(newRawPassword);
+        String oldUserName=oldUserInfo.getUserName();
+        String newUserName=newUserInfo.getUserName();
+        if(!oldUserName.equals(newUserName)&&containUsername(newUserName)) return null;
+
+        // 检查密码是否需要更新
+        String newRawPassword = newUserInfo.getPassword();
+        boolean passwordChanged = !securityUtil.passwordEncoder()
+                .matches(newRawPassword, oldUserInfo.getPassword());
+
+        oldUserInfo.setUserName(newUserInfo.getUserName());
+        oldUserInfo.setPhone(newUserInfo.getPhone());
+        oldUserInfo.setAge(newUserInfo.getAge());
+        oldUserInfo.setWeight(newUserInfo.getWeight());
+        oldUserInfo.setHeight(newUserInfo.getHeight());
+        oldUserInfo.setLocation(newUserInfo.getLocation());
+        oldUserInfo.setAvatar(newUserInfo.getAvatar());
+
+        if (passwordChanged && !newRawPassword.equals("********")) {
+            String encryptedNewPassword = securityUtil.passwordEncoder().encode(newRawPassword);
             oldUserInfo.setPassword(encryptedNewPassword);
         }
+
         return userRepository.save(oldUserInfo).toVO();
     }
+
 
 }
 

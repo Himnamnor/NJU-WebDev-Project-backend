@@ -58,6 +58,7 @@ public class UserController {
         if(retVO==null){
             return Response.buildFailure(null,"Cannot find user info according to given id",400);
         }
+        retVO.setPassword("********");
         return Response.buildSuccess(retVO);
     }
 
@@ -68,8 +69,9 @@ public class UserController {
                                             @RequestBody UserVO newUserInfo){
         UserVO ret=userService.setPersonalInfo(userId,newUserInfo);
         if(ret==null){
-            return Response.buildFailure(null,"Cannot find user info according to given id",400);
+            return Response.buildFailure(null,"找不到用户或用户名已存在",400);
         }
+        ret.setPassword("********");
         return Response.buildSuccess(ret);
     }
 

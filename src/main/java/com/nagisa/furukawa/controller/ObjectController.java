@@ -22,7 +22,7 @@ public class ObjectController {
         String url;
         try{
             inputStream=file.getInputStream();
-            url=ossUtil.upload(file.getName(), inputStream);
+            url=ossUtil.upload(file.getOriginalFilename(), inputStream);
         } catch (IOException e) {
             return Response.buildFailure("上传失败","InputStream或Oss上传问题",500);
         }

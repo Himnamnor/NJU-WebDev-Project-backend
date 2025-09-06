@@ -18,7 +18,7 @@ public enum ActType {
     private final String label;
     private final Integer code;
 
-    public ActType getActTypeFromLabel(String label){
+    public static ActType getActTypeFromLabel(String label){
         for(ActType actType:ActType.values()){
             if(actType.getLabel().equals(label)){
                 return actType;

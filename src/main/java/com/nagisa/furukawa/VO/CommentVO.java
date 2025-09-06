@@ -16,13 +16,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Component
-public class CommentVO {
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ActivityRepository activityRepository;
+public class CommentVO {
 
     Integer commenterId;
     Integer actId;
@@ -31,7 +26,7 @@ public class CommentVO {
     String content;
     LocalDateTime createTime;
 
-    public Comment toPO(){
+    public Comment toPO(UserRepository userRepository,ActivityRepository activityRepository){
         Comment comment=new Comment();
         User commenter=userRepository.findByUserId(commenterId);
         Activity activity=activityRepository.findByActId(actId);
@@ -39,6 +34,7 @@ public class CommentVO {
         comment.setActivity(activity);
         comment.setRate(rate);
         comment.setContent(content);
+        comment.setCreateTime(createTime);
         return comment;
     }
 

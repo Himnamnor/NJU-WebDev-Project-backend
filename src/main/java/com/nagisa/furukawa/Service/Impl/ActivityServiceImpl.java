@@ -22,6 +22,7 @@ public class ActivityServiceImpl implements ActivityService {
         try{
             activityRepository.save(activity);
         }catch (Exception e){
+            System.out.println(e.getMessage());
             return false;
         }
         return true;
@@ -62,6 +63,12 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<ActivityVO> getAllActivities(){
         List<Activity> activities=activityRepository.findAll();
+        return activities.stream().map(Activity::toVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ActivityVO> getSearchedActivities(String searchedActName){
+        List<Activity> activities=activityRepository.findAllByActName(searchedActName);
         return activities.stream().map(Activity::toVO).collect(Collectors.toList());
     }
 

@@ -13,20 +13,14 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Setter
 @Getter
-@Component
 public class RegInfoVO {
-
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ActivityRepository activityRepository;
 
     Integer regId;
     Integer userId;
     Integer actId;
     RegStatus status;
 
-    public RegInfo toPO(){
+    public RegInfo toPO(UserRepository userRepository,ActivityRepository activityRepository){
         RegInfo regInfo = new RegInfo();
         regInfo.setUser(userRepository.findByUserId(userId));
         regInfo.setActivity(activityRepository.findByActId(actId));

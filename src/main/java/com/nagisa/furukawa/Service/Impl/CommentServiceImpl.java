@@ -4,6 +4,7 @@ import com.nagisa.furukawa.PO.Activity;
 import com.nagisa.furukawa.PO.Comment;
 import com.nagisa.furukawa.Repository.ActivityRepository;
 import com.nagisa.furukawa.Repository.CommentRepository;
+import com.nagisa.furukawa.Repository.UserRepository;
 import com.nagisa.furukawa.Service.CommentService;
 import com.nagisa.furukawa.VO.CommentVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,15 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     CommentRepository commentRepository;
     @Autowired
     ActivityRepository activityRepository;
 
     @Override
     public Boolean makeComment(CommentVO commentVO){
-        Comment comment=commentVO.toPO();
+        Comment comment=commentVO.toPO(userRepository,activityRepository);
         commentRepository.save(comment);
         return true;
     }

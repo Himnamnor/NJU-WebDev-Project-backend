@@ -18,6 +18,7 @@ public class RegController {
 
     @Autowired
     RegService regService;
+
     @Autowired
     JwtUtil jwtUtil;
 

@@ -6,6 +6,8 @@ target/
 
 !**/src/**/resources/
 
+/src/main/resources/application.yml
+
 ### STS ###
 .apt_generated
 .classpath

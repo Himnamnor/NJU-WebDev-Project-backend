@@ -39,7 +39,7 @@ public class ActivityController {
         return Response.buildFailure(false,"Invalid entries exists or missing entries!",400);
     }
 
-    @GetMapping("/activity/{actId}")
+    @GetMapping("/{actId}")
     public Response<ActivityVO> getSpecActivity(@PathVariable Integer actId){
         ActivityVO ret=activityService.getSpecActivity(actId);
         if(ret!=null){
@@ -48,13 +48,22 @@ public class ActivityController {
         return Response.buildFailure(null,"Activity ID doesn't exist!",400);
     }
 
-    @GetMapping("/activity/all")
+    @GetMapping("/all")
     public Response<List<ActivityVO>> getAllActivities(){
         List<ActivityVO> ret=activityService.getAllActivities();
         if(ret!=null && !ret.isEmpty()){
             return Response.buildSuccess(ret);
         }
         return Response.buildFailure(null,"No activities found!",400);
+    }
+
+    @GetMapping("/search/{actName}")
+    public Response<List<ActivityVO>> getSearchedActivities(@PathVariable String actName){
+        List<ActivityVO> ret=activityService.getSearchedActivities(actName);
+        if(ret!=null&& !ret.isEmpty()){
+            return Response.buildSuccess(ret);
+        }
+        return Response.buildFailure(null,"无匹配结果或发生错误",400);
     }
 
 }

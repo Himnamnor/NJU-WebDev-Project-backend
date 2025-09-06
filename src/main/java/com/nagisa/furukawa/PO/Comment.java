@@ -17,6 +17,7 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy =jakarta.persistence.GenerationType.IDENTITY)
+    @Column
     Integer commentId;
 
     @Column
@@ -29,7 +30,7 @@ public class Comment {
     )
     User commenter;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(
             name="act_id",
             nullable = false
