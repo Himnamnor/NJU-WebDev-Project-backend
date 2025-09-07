@@ -24,6 +24,6 @@ aliyun:
   oss:
     endpoint: oss-cn-shanghai.aliyuncs.com
     accessKeyId: ${OSS_ACCESS_KEY_ID}
-    accessKeySecret: ${OSSS_ACCESS_KEY_SECRET}
+    accessKeySecret: ${OSS_ACCESS_KEY_SECRET}
     bucketName: okazaki-bluewhale
 
