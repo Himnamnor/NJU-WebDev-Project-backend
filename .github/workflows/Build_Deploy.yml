@@ -63,8 +63,8 @@ jobs:
           script: |
             cd ~/app
             docker login -u ${{ vars.USER_NAME }} -p ${{ secrets.ACR_PASSWORD }} ${{ vars.ACR_REGISTRY }}
-            export ALIYUN_OSS_ACCESS_KEY_ID=${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
-            export ALIYUN_OSS_ACCESS_KEY_SECRET=${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
+            export OSS_ACCESS_KEY_ID=${{ secrets.OSS_ACCESS_KEY_ID }}
+            export OSS_ACCESS_KEY_SECRET=${{ secrets.OSS_ACCESS_KEY_SECRET }}
             docker compose pull        # 拉取镜像（后端服务）
             docker compose down        # 停止并移除已有容器（可选）
             docker compose up -d       # 启动所有服务容器（MySQL+Backend）
